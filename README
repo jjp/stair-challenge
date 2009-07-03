@@ -1,0 +1,6 @@
+Simple test application to try my hand at running a Django application
+under Google App Engine.
+
+Following cookbook from 
+   http://thomas.broxrost.com/2008/04/08/django-on-google-app-engine/
+
