@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Activity Report: {{ challenge.name }}{% endblock %}
+{% block content %}
+
+  <form action="{% url challenge.views.show_challenge id=challenge.key.id %}" method="POST">
+    <table>
+      {{ form.as_table }}
+    </table>
+    <p><input type="submit" value="Submit"/></p>
+  </form>
+<h1>Activity Reports: {{ challenge.name }} </h1>
+<table>
+  <tr>
+    <th id="reported_date">Reported Date</th>
+    <th id="reporter">Reporter</th>
+    <th id="up">Flights Up</th>
+    <th id="down">Flights Down</th>
+  </tr>
+  {% for report in object_list %}
+  <tr>
+    <td id="reported_date">{{report.reported_date}}</td>
+    <td id="reporter">{{report.reporter.name}}</td>
+    <td id="up">{{report.flights_up}}</td>
+    <td id="down">{{report.flights_down}}</td>
+  </tr>
+  {% endfor %}
+</table> 
+
+<div>
+  {% if has_previous %}
+    <a href="{% url challenge.views.show_challenge id=challenge.key.id %}?page={{ previous }}">&lt;-previous</a>
+  {% endif %}
+  {% if has_next %}
+    <a href="{% url challenge.views.show_challenge id=challenge.key.id %}?page={{ next }}">next-&gt;</a>
+  {% endif %}
+</div>
+
+{% endblock %}

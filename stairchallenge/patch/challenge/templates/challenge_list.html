@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Challenge listing{% endblock %}
+
+{% block content %}
+<h1>Challenge listing</h1>
+<a href="{% url challenge.views.add_challenge %}">Create a challenge</a>
+
+<ul>
+  {% for challenge in object_list %}
+    <li>
+      <a href="{% url challenge.views.show_challenge id=challenge.key.id %}">{{ challenge.name }} {{ challenge.start }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<div>
+  {% if has_previous %}
+    <a href="{% url challenge.views.list_challenges %}?page={{ previous }}">&lt;-previous</a>
+  {% endif %}
+  {% if has_next %}
+    <a href="{% url challenge.views.list_challenges %}?page={{ next }}">next-&gt;</a>
+  {% endif %}
+</div>
+{% endblock %}
