@@ -2,13 +2,27 @@
 {% block title %}Activity Report: {{ challenge.name }}{% endblock %}
 {% block content %}
 
+<div class="span-10">
+<h1>New Activity</h1>
   <form action="{% url challenge.views.show_challenge id=challenge.key.id %}" method="POST">
     <table>
       {{ form.as_table }}
     </table>
-    <p><input type="submit" value="Submit"/></p>
+    <input type="submit" value="Submit"/>
   </form>
-<h1>Activity Reports: {{ challenge.name }} </h1>
+  <img src="{{ MEDIA_URL }}challenge/158-The-Conquest-2-q75-382x500.jpg" }}"/>
+</div>
+<div class="span-2">
+</div>
+<div class="span-12 last">
+<h1>{{ challenge.name }}</h1>
+<table>
+  <tr><th colspan="2">Top Scorers</th></tr>
+  <tr><th id="reporter">Name</th><th id="score">Score</th></tr>
+{% for reporter, score in top_reporters %}
+<tr><td id="reporter">{{ reporter.name }}</td><td id="score">{{ score }}</td></tr>
+{% endfor %}
+</table>
 <table>
   <tr>
     <th id="reported_date">Reported Date</th>
@@ -25,14 +39,14 @@
   </tr>
   {% endfor %}
 </table> 
-
-<div>
+<div align="center">
   {% if has_previous %}
     <a href="{% url challenge.views.show_challenge id=challenge.key.id %}?page={{ previous }}">&lt;-previous</a>
   {% endif %}
   {% if has_next %}
     <a href="{% url challenge.views.show_challenge id=challenge.key.id %}?page={{ next }}">next-&gt;</a>
   {% endif %}
+</div>
 </div>
 
 {% endblock %}

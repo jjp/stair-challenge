@@ -24,23 +24,15 @@
   </head>
 
   <body>
-    {% block header %}
-      <div id="header">
-        <div class="menu">
-          <a href="/"><img src="{{ MEDIA_URL }}global/logo.png" alt="" /></a>
+    <div class="container">
+      {% block header %}
+      <div id="header" class="span-24">
+        <div class="menu" align="center"> |
           <a href="{% url challenge.views.list_challenges %}">All Challenges</a> | 
-          <a href="/admin/">Admin interface</a> |
           <a href="http://code.google.com/p/app-engine-patch/">Built with app-engine-patch</a> |
-          --
-          {% if user.is_authenticated %}
-            Welcome, {{ user.username }}!
-            <a href="{% url django.contrib.auth.views.logout %}">Logout</a>
-          {% else %}
-            <a href="{% url django.contrib.auth.views.login %}">Login</a>
-            <a href="{% url registration.views.register %}">Register</a>
-          {% endif %}
         </div>
       </div>
+    </div>
     {% endblock %}
     <div id="content" class="column container">
       {% block content-header %}

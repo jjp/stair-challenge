@@ -25,8 +25,8 @@ def add_challenge( request ):
         if( form.is_valid() ):
             challenge = Challenge()
             challenge.name = form.cleaned_data['name']
-            challenge.put()
-            return HttpResponseRedirect('/challenges/' + str(challenge.key().id()) )
+            challenge.put( )
+            return HttpResponseRedirect(reverse('challenge.views.show_challenge', kwargs={'id':str(challenge.key().id() ) }) )
     else:
         # default to GET
         form = ChallengeForm( )
@@ -43,8 +43,9 @@ def show_challenge( request, id ):
     else:
         form = ActivityReportForm(
             initial = { 'challenge_id': id } )
-        reports = challenge.report_set
-        return object_list(request, reports, paginate_by=10, extra_context=locals(), template_name='challenge/activity_report.html' )
+        reports = challenge.report_set.order("-reported_date")
+        top_reporters = challenge.top_reporters( limit=5 )
+        return object_list(request, reports, paginate_by=15, extra_context=locals(), template_name='challenge/activity_report.html' )
         # return render_to_response( 'challenge/activity_report.html', locals() )
 
 def admin( request ):
