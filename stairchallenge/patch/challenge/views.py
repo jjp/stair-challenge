@@ -14,6 +14,13 @@ from challenge.forms import ChallengeForm, ActivityReportForm
 def list_challenges(request):
     return object_list(request, Challenge.all(), paginate_by=10)
 
+def list_reports( request, challenge_id, reporter_id ):
+    challenge = Challenge.get_by_id( int(challenge_id ) )
+    reporter = Reporter.get_by_id( int(reporter_id) )
+    reports = challenge.report_set.filter( 'reporter = ', reporter ).order("-reported_date" )
+    
+    return object_list( request, reports, paginate_by=10, extra_context=locals() )
+
 def main( request ):
     return render_to_response(
         'main.html', {} )

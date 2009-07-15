@@ -5,5 +5,5 @@ settings.add_app_media('combined-%(LANGUAGE_CODE)s.js',
                        )
 
 settings.add_app_media('combined-en.css',
-                       'challenge/jquery-quickselect.css'
+                       'challenge/jquery.quickselect.css'
                        )

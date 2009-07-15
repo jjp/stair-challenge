@@ -22,7 +22,7 @@
   <th class="span-3" id="score">Score</th>
   <th class="span-6 last">Trend</th></tr>
 {% for reporter, score in top_reporters %}
-<tr><td id="reporter">{{ reporter.name }}</td><td id="score">{{ score }}</td>
+<tr><td id="reporter"><a href="{% url challenge.views.list_reports challenge_id=challenge.key.id reporter_id=reporter.key.id %}">{{ reporter.name }}</a></td><td id="score">{{ score }}</td>
     <td><img src="{% url challenge.views.spark_line challenge_id=challenge.key.id reporter_id=reporter.key.id %}"></img></td></tr>
 {% endfor %}
 </table>
