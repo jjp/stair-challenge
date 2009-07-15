@@ -18,12 +18,19 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 49 times in query history.
+# Used 136 times in query history.
 - kind: challenge_report
   properties:
   - name: challenge
   - name: reported_date
     direction: desc
+
+# Used 3 times in query history.
+- kind: challenge_report
+  properties:
+  - name: challenge
+  - name: reporter
+  - name: reported_date
 
 # Used 4 times in query history.
 - kind: django_admin_log

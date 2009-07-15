@@ -44,9 +44,14 @@ def show_challenge( request, id ):
         form = ActivityReportForm(
             initial = { 'challenge_id': id } )
         reports = challenge.report_set.order("-reported_date")
-        top_reporters = challenge.top_reporters( limit=5 )
+        top_reporters = challenge.top_reporters( )[0:3]
         return object_list(request, reports, paginate_by=15, extra_context=locals(), template_name='challenge/activity_report.html' )
         # return render_to_response( 'challenge/activity_report.html', locals() )
+
+def spark_line( request, challenge_id, reporter_id ):
+    challenge = Challenge.get_by_id( int( challenge_id ) )
+    reporter = Reporter.get_by_id( int( reporter_id ) )
+    return HttpResponseRedirect(reporter.spark_line_url( challenge ) )
 
 def admin( request ):
     return HttpResponse( 'admin' )
