@@ -49,5 +49,14 @@ class ActivityReportForm( forms.Form ):
     flights_up = forms.IntegerField( label="How many flights up?" )
     flights_down = forms.IntegerField( label="How many flights down?" )
 
-
+    def clean( self ):
+        """validate the form - overridden to handle the case where neither
+        a reporter_existing_name or a reporter_new_name is provided."""
+        cleaned_data = self.cleaned_data
+        if( not ( cleaned_data.get('reporter_existing_name') or
+                cleaned_data.get('reporter_new_name' ) ) ):
+            raise forms.ValidationError("You most select either an existing name or provide a new one." )
+        # always return cleaned data
+        return cleaned_data
+            
     

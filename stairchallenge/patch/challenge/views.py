@@ -44,16 +44,15 @@ def add_challenge( request ):
 
 def show_challenge( request, id ):
     challenge = Challenge.get_by_id( int(id ) )
+    reports = challenge.report_set.order("-reported_date")
+    top_reporters = challenge.top_reporters( )[0:3]
     
     if( request.method == 'POST' ):
-        return _new_activity_report( request, challenge )
+        return _new_activity_report( request, challenge, reports, top_reporters )
     else:
         form = ActivityReportForm(
             initial = { 'challenge_id': id } )
-        reports = challenge.report_set.order("-reported_date")
-        top_reporters = challenge.top_reporters( )[0:3]
         return object_list(request, reports, paginate_by=15, extra_context=locals(), template_name='challenge/activity_report.html' )
-        # return render_to_response( 'challenge/activity_report.html', locals() )
 
 def spark_line( request, challenge_id, reporter_id ):
     challenge = Challenge.get_by_id( int( challenge_id ) )
@@ -63,7 +62,7 @@ def spark_line( request, challenge_id, reporter_id ):
 def admin( request ):
     return HttpResponse( 'admin' )
 
-def _new_activity_report( request, challenge ):
+def _new_activity_report( request, challenge, reports, top_reporters ):
     # first get list of existing reporters for dropdown
     form = ActivityReportForm( request.POST )
     if( form.is_valid() ):
@@ -83,8 +82,7 @@ def _new_activity_report( request, challenge ):
         report.put()
         return HttpResponseRedirect(reverse('challenge.views.show_challenge', kwargs={'id':str(challenge.key().id() ) }) )
     else:
-        reports = challenge.report_set
-        return render_to_response( 'challenge/activity_report.html', locals() )
+        return object_list(request, reports, paginate_by=15, extra_context=locals(), template_name='challenge/activity_report.html' )
 
 def _makeDate( friendly_date ):
     return datetime.datetime.strptime( friendly_date, "%Y-%m-%d" ).date()
